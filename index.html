@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+<div class="small-container">
+<h1>New Tab App</h1>
+
+<form>
+ <input id="item" type="text" placeholder="New">
+</form>
+
+<h2>Items</h2>
+<ul></ul>
+
+<button>Clear All</button>
+</div>
+<script type="text/javascript">
+const form=document.querySelector('form');
+const ul=document.querySelector('ul');
+const button=document.querySelector('button');
+const input=document.getElementById('item');
+let itemsArray=localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+
+localStorage.setItem('items',JSON.stringify(itemsArray));
+const data=JSON.parse(localStorage.getItem('items'));
+
+const liMaker = (text) => {
+	const li=document.createElement('li');
+	li.textContent=text;
+	ul.appendChild(li);
+
+}	
+
+form.addEventListener('submit',function(e)
+{
+	e.preventDefault();
+
+	itemsArray.push(input.value);
+	localStorage.setItem('items', JSON.stringify(itemsArray));//local storage only takes data in string form
+	liMaker(input.value);
+	input.value="";
+});
+data.forEach(item => {
+	liMaker(item);
+});
+button.addEventListener('click',function(){
+	localStorage.clear();
+	while (ul.firstChild){
+		ul.removeChild(ul.firstChild);
+	}
+	itemsArray = [];
+});
+</script>
+</body>
+</html>
